@@ -6,12 +6,12 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 const { useState, useEffect } = React
 const { Link, useSearchParams } = ReactRouterDOM
+const { useSelector } = ReactRedux
 
 export function TodoIndex() {
 
-    const [todos, setTodos] = useState(null)
+    const todos = useSelector(state => state.todos)
 
-    // Special hook for accessing search-params:
     const [searchParams, setSearchParams] = useSearchParams()
 
     const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
@@ -20,12 +20,7 @@ export function TodoIndex() {
 
     useEffect(() => {
         setSearchParams(filterBy)
-        todoService.query(filterBy)
-            .then(todos => setTodos(todos))
-            .catch(err => {
-                console.eror('err:', err)
-                showErrorMsg('Cannot load todos')
-            })
+        loadTodos(filterBy)
     }, [filterBy])
 
     function onRemoveTodo(todoId) {
