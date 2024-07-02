@@ -3,6 +3,7 @@ import { TodoList } from "../cmps/TodoList.jsx"
 import { DataTable } from "../cmps/data-table/DataTable.jsx"
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
+import { loadTodos, removeTodo } from "../store/todo.actions.js"
 
 const { useState, useEffect } = React
 const { Link, useSearchParams } = ReactRouterDOM
@@ -13,10 +14,12 @@ export function TodoIndex() {
     const todos = useSelector(state => state.todos)
 
     const [searchParams, setSearchParams] = useSearchParams()
-
     const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
-
+    
     const [filterBy, setFilterBy] = useState(defaultFilter)
+    
+    console.log(todos);
+    console.log(filterBy);
 
     useEffect(() => {
         setSearchParams(filterBy)
@@ -24,9 +27,7 @@ export function TodoIndex() {
     }, [filterBy])
 
     function onRemoveTodo(todoId) {
-        todoService.remove(todoId)
-            .then(() => {
-                setTodos(prevTodos => prevTodos.filter(todo => todo._id !== todoId))
+        removeTodo(todoId).then(() => {
                 showSuccessMsg(`Todo removed`)
             })
             .catch(err => {
@@ -34,6 +35,7 @@ export function TodoIndex() {
                 showErrorMsg('Cannot remove todo ' + todoId)
             })
     }
+    
 
     function onToggleTodo(todo) {
         const todoToSave = { ...todo, isDone: !todo.isDone }
