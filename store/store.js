@@ -4,7 +4,7 @@ export const SET_TODOS = 'SET_TODOS'
 export const SET_FILTER = 'SET_FILTER'
 export const REMOVE_TODO = 'REMOVE_TODO'
 export const ADD_TODO = 'ADD_TODO'
-export const SAVE_TODO = 'SAVE_TODO'
+export const UPDATE_TODO = 'UPDATE_TODO'
 
 const initialState = {
     todos: [],
@@ -23,7 +23,7 @@ function appReducer(state = initialState, action = {}) {
             return {...state, todos: state.todos.filter(todo => todo._id !== action.todoId)}
         case ADD_TODO:
             return {...state, todos: [...state.todos, action.todo]}
-        case SAVE_TODO:
+        case UPDATE_TODO:
             return {...state, todos: state.todos.map(todo => todo.id === action.todo._id ? action.todo : todo)}
         default:
             return state

@@ -1,5 +1,5 @@
 import { todoService } from "../services/todo.service.js";
-import { REMOVE_TODO, SET_TODOS, store } from "./store.js";
+import { REMOVE_TODO, SET_TODOS, UPDATE_TODO, store } from "./store.js";
 
 export function loadTodos(filterBy) {
     return todoService.query(filterBy)
@@ -13,5 +13,6 @@ export function removeTodo(todoId) {
 
 export function saveTodo(todo) {
     const type = todo._id ? UPDATE_TODO : ADD_TODO 
-    store.dispatch({type, todo})
+    return todoService.save(todo)
+            .then(() => store.dispatch({type, todo}))
 }
