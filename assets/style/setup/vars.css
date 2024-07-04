@@ -1,14 +1,14 @@
 :root {
-  --clr1: rgb(96, 107, 91);
-  --clr2: rgb(120, 99, 110);
+  --clr1: rgb(196, 255, 254);
+  --clr2: rgb(55, 90, 166);
 
-  --clr1bg: rgb(153, 166, 149);
+  --clr1bg: rgb(56, 152, 184);
   --clr1bg-light: rgb(205, 221, 200);
-  --clr2bg: rgb(233, 206, 221);
-  --clr2bg-light: rgb(253, 236, 246);
+  --clr2bg: rgb(220, 231, 255);
+  --clr2bg-light: rgb(56, 56, 56);
 
   --gray1: rgb(240, 240, 240);
   --gray2: rgb(155, 155, 155);
-  --gray3: rgb(44, 44, 44);
+  --gray3: rgb(31, 31, 31);
 
 } 
