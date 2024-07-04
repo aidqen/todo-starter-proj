@@ -39,8 +39,7 @@ export function LoginSignup() {
 
 
     function signup(credentials) {
-        userService.signup(credentials)
-            .then(onSetUser)
+        setUser('signup', credentials)
             .then(() => { showSuccessMsg('Signed in successfully') })
             .catch((err) => { showErrorMsg('Oops try again') })
     }
