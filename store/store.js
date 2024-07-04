@@ -5,6 +5,7 @@ export const SET_FILTER = 'SET_FILTER'
 export const REMOVE_TODO = 'REMOVE_TODO'
 export const ADD_TODO = 'ADD_TODO'
 export const UPDATE_TODO = 'UPDATE_TODO'
+export const SET_USER = 'SET_USER'
 
 const initialState = {
     todos: [],
@@ -25,6 +26,11 @@ function appReducer(state = initialState, action = {}) {
             return {...state, todos: [...state.todos, action.todo]}
         case UPDATE_TODO:
             return {...state, todos: state.todos.map(todo => todo.id === action.todo._id ? action.todo : todo)}
+
+        case SET_USER:
+            return {...state, loggedInUser: action.user}
+        // case SET_USER:
+        //     return {...state, loggedInUser: action.user}
         default:
             return state
     }

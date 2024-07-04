@@ -1,30 +1,24 @@
 const { useState } = React
 const { Link, NavLink } = ReactRouterDOM
 const { useNavigate } = ReactRouter
+const { useSelector, useDispatch } = ReactRedux
 
 import { userService } from '../services/user.service.js'
 import { UserMsg } from "./UserMsg.jsx"
 import { LoginSignup } from './LoginSignup.jsx'
 import { showErrorMsg } from '../services/event-bus.service.js'
+import { SET_USER } from '../store/store.js'
+import { logoutUser, setUser } from '../store/todo.actions.js'
 
 
 export function AppHeader() {
     const navigate = useNavigate()
-    const [user, setUser] = useState(userService.getLoggedinUser())
+
+    const user = useSelector(state => state.loggedInUser)
+    // const [user, setUser] = useState(userService.getLoggedinUser())
     
     function onLogout() {
-        userService.logout()
-            .then(() => {
-                onSetUser(null)
-            })
-            .catch((err) => {
-                showErrorMsg('OOPs try again')
-            })
-    }
-
-    function onSetUser(user) {
-        setUser(user)
-        navigate('/')
+        logoutUser()
     }
     return (
         <header className="app-header full main-layout">
@@ -38,7 +32,7 @@ export function AppHeader() {
                     </ section >
                 ) : (
                     <section>
-                        <LoginSignup onSetUser={onSetUser} />
+                        <LoginSignup/>
                     </section>
                 )}
                 <nav className="app-nav">
