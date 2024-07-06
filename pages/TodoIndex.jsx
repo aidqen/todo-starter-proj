@@ -7,22 +7,27 @@ import { loadTodos, removeTodo, saveTodo } from '../store/todo.actions.js'
 
 const { useState, useEffect } = React
 const { Link, useSearchParams } = ReactRouterDOM
-const { useSelector } = ReactRedux
+const { useSelector, useDispatch } = ReactRedux
 
 export function TodoIndex() {
+  const dispatch = useDispatch()
+
   const todos = useSelector(state => state.todos)
 
   const [searchParams, setSearchParams] = useSearchParams()
   const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
 
-  const [filterBy, setFilterBy] = useState(defaultFilter)
+  const filterBy = useSelector(state => state.filterBy)
 
   console.log(todos)
   console.log(filterBy)
 
   useEffect(() => {
     setSearchParams(filterBy)
-    loadTodos(filterBy)
+    loadTodos(filterBy).catch(err => {
+      console.error('err:', err)
+      showErrorMsg('Cannot load todos')
+    })
   }, [filterBy])
 
   function onRemoveTodo(todoId) {
@@ -37,17 +42,20 @@ export function TodoIndex() {
   }
   function onToggleTodo(todo) {
     const todoToSave = { ...todo, isDone: !todo.isDone }
-    saveTodo(todoToSave)
-      .catch(err => {
+    saveTodo(todoToSave).catch(err => {
         console.log('err:', err)
         showErrorMsg('Cannot toggle todo')
       })
+  }
+  function setFilterBy(filterBy) {
+    console.log(filterBy)
+    dispatch({ type: SET_FILTER, filterBy })
   }
 
   if (!todos) return <div>Loading...</div>
   return (
     <section className="todo-index">
-      <TodoFilter filterBy={filterBy} onSetFilterBy={setFilterBy} />
+          <TodoFilter filterBy={filterBy} setFilterBy={setFilterBy} />
       <div>
         <Link to="/todo/edit" className="btn">
           Add Todo

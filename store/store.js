@@ -25,7 +25,9 @@ function appReducer(state = initialState, action = {}) {
         case ADD_TODO:
             return {...state, todos: [...state.todos, action.todo]}
         case UPDATE_TODO:
-            return {...state, todos: state.todos.map(todo => todo.id === action.todo._id ? action.todo : todo)}
+    case SET_FILTER:
+        console.log(action.filterBy);
+      return { ...state, filterBy: action.filterBy }
 
         case SET_USER:
             return {...state, loggedInUser: action.user}
