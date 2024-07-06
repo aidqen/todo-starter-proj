@@ -4,3 +4,25 @@
     margin: 1em 0;
 }
 
+.filter-by-status button.active {
+    background-color: var(--clr2);
+    color: var(--clr2fg);
+}
+
+
+.progress-bar h4 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+/* refactor these styles into css format: width: '100%', backgroundColor: '#e0e0de', height: '1.5em', borderRadius: '50px', position: 'relative'*/
+.progress-bar {
+    width: 7em;
+    background-color: var(--gray1);
+    height: 1.5em;
+    border-radius: 50px;
+    position: relative;
+}
