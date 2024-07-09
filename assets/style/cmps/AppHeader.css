@@ -1,7 +1,5 @@
 .app-header {
-    background-color: var(--clr1);
-    color: var(--clr2bg-light);
-    
+    border-bottom: 1px solid lightgray;
 }
 
 .header-container {

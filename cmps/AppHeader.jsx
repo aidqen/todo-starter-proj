@@ -6,14 +6,22 @@ const { useSelector, useDispatch } = ReactRedux
 import { UserMsg } from './UserMsg.jsx'
 import { LoginSignup } from './LoginSignup.jsx'
 import { showErrorMsg } from '../services/event-bus.service.js'
-import { loadTodos, logoutUser } from '../store/todo.actions.js'
+import { loadTodos, logoutUser, setUser } from '../store/todo.actions.js'
 import { ProgressBar } from './ProgressBar.jsx'
+import { userService } from '../services/user.service.js'
+import { SET_USER } from '../store/store.js'
 
 export function AppHeader() {
-  const navigate = useNavigate()
-  const todos = useSelector(state => state.todos)
+  const dispatch = useDispatch()
+  const todosData = useSelector(state => state.todosData)
+  const filterBy = useSelector(state => state.filterBy)
 
   const user = useSelector(state => state.loggedInUser)
+  useEffect(() => {
+    loadTodos(filterBy)
+    const loggedInUser = userService.getLoggedinUser()
+    dispatch({type:SET_USER, loggedInUser})
+  }, [])
 
   function onLogout() {
     logoutUser()
@@ -22,15 +30,15 @@ export function AppHeader() {
   const percentage = getTodosPercentage()
 
   function getTodosPercentage() {
-    const todosSum = todos.length
+    const { todosLength, todos }= todosData
     // console.log('todos:', todos)
     // console.log('todosSum:', todosSum)
     const todosNotDone = todos.filter(todo => !todo.isDone).length
     // console.log('todosNotDone:', todosNotDone)
     // console.log(todosSum / todosNotDone * 100);
-    return Math.floor((todosNotDone / todosSum) * 100)
+    return Math.floor((todosNotDone / todosLength) * 100)
   }
-
+  const {backgroundColor, color} = user || {backgroundColor: 'white', color: 'black'}
   return (
     <header className="app-header full main-layout">
       <section className="header-container">
