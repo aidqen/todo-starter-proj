@@ -1,11 +1,29 @@
-
-
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 const { useSelector } = ReactRedux
 
 export function TodoFilter({ filterBy, setFilterBy }) {
+  const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
+  const timeoutRef = useRef(null)
+  
   const filterStatus = ['All', 'Active', 'Done']
 
+  useEffect(() => {
+    debouncedHandleSearch(filterByToEdit)
+  }, [filterByToEdit])
+  
+
+  const debounce = (func, delay) => {
+    return (...args) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const debouncedHandleSearch = debounce(setFilterBy, 500)
 
   function handleChange({ target }) {
     const field = target.name
@@ -21,7 +39,7 @@ export function TodoFilter({ filterBy, setFilterBy }) {
         value = target.checked
         break
     }
-    setFilterBy({...filterBy, [field]:value})
+    setFilterByToEdit(prevFilter => ({...prevFilter, [field]:value}))
   }
 
   // Optional support for LAZY Filtering with a button
@@ -31,7 +49,7 @@ export function TodoFilter({ filterBy, setFilterBy }) {
   }
 
 
-  const { txt, importance } = filterBy
+  const { txt, importance } = filterByToEdit
   return (
     <section className="todo-filter">
       <h2>Filter Todos</h2>
