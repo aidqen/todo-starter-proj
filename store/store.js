@@ -9,7 +9,7 @@ export const SET_IS_LOADING = 'SET_IS_LOADING'
 export const SET_USER = 'SET_USER'
 
 const initialState = {
-  todos: [],
+  todosData: {todos: [], filteredTodos: [], todosLength: 0},
   filterBy: { txt: '', importance: 0, status: 'All' },
   isLoading: false,
   loggedInUser: null,
@@ -22,7 +22,7 @@ function appReducer(state = initialState, action = {}) {
         return {...state, isLoading}
 
     case SET_TODOS:
-      return { ...state, todos: action.todos }
+      return { ...state, todosData: action.todos }
     case REMOVE_TODO:
       return {
         ...state,
@@ -43,7 +43,7 @@ function appReducer(state = initialState, action = {}) {
       return { ...state, filterBy: action.filterBy }
 
     case SET_USER:
-      return { ...state, loggedInUser: action.user }
+      return { ...state, loggedInUser: action.loggedInUser }
     default:
       return state
   }

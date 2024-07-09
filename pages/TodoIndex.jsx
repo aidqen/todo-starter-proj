@@ -13,16 +13,15 @@ const { useSelector, useDispatch } = ReactRedux
 export function TodoIndex() {
   const dispatch = useDispatch()
 
-  const todos = useSelector(state => state.todos)
+  const todosData = useSelector(state => state.todosData)
+  const { todos, filteredTodos } = todosData
   const isLoading = useSelector(state => state.isLoading)
 
+
   const [searchParams, setSearchParams] = useSearchParams()
-  const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
+  // const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
 
   const filterBy = useSelector(state => state.filterBy)
-
-  console.log(todos)
-  console.log(filterBy)
 
   useEffect(() => {
     setSearchParams(filterBy)
@@ -50,11 +49,10 @@ export function TodoIndex() {
     })
   }
   function setFilterBy(filterBy) {
-    console.log(filterBy)
     dispatch({ type: SET_FILTER, filterBy })
   }
 
-  if (!todos) return <div>Loading...</div>
+  if (!filteredTodos) return <div>Loading...</div>
   return (
     <section className="todo-index">
       {isLoading ? (
@@ -69,14 +67,14 @@ export function TodoIndex() {
           </div>
           <h2>Todos List</h2>
           <TodoList
-            todos={todos}
+            todos={filteredTodos}
             onRemoveTodo={onRemoveTodo}
             onToggleTodo={onToggleTodo}
           />
           <hr />
           <h2>Todos Table</h2>
           <div style={{ width: '60%', margin: 'auto' }}>
-            <DataTable todos={todos} onRemoveTodo={onRemoveTodo} />
+            <DataTable todos={filteredTodos} onRemoveTodo={onRemoveTodo} />
           </div>
         </React.Fragment>
       )}
