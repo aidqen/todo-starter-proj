@@ -22,7 +22,7 @@ export function saveTodo(todo) {
 
 export function setUser(type, credentials) {
     // Login / Signup
-    userService[`${type}`](credentials)
+    return userService[`${type}`](credentials)
             .then((user) => store.dispatch({type: SET_USER, user}))
 }
 
