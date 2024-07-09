@@ -12,6 +12,7 @@ import { AboutTeam } from './cmps/AboutTeam.jsx'
 import { AboutVision } from './cmps/AboutVision.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
 import { store } from './store/store.js'
+import { UserDetails } from './cmps/UserDetails.jsx'
 
 export function RootCmp() {
   return (
@@ -30,6 +31,7 @@ export function RootCmp() {
               <Route path="/todo/edit/:todoId" element={<TodoEdit />} />
               <Route path="/todo/edit" element={<TodoEdit />} />
               <Route path="/todo" element={<TodoIndex />} />
+              <Route path="/user/:userId" element={<UserDetails />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </main>
